@@ -162,7 +162,7 @@ public class BinaryHeapFormatter {
      * @return a string containing a sorted view the given binary heap.
      */
     public static <E extends Comparable<E>> String toStringSorted(BinaryHeap<E> heap,
-            int max_elements) {
+            int maxElement) {
         String result = "";
         final BinaryHeap<E> copy = new BinaryHeap<E>(heap);
 
