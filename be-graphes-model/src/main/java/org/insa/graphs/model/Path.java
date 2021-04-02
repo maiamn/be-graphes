@@ -201,8 +201,18 @@ public class Path {
      * @deprecated Need to be implemented.
      */
     public boolean isValid() {
-        // TODO:
-        return false;
+    	// Test condition isValid()
+        boolean condition ;
+        
+        // it contains a single node (without arcs);
+        boolean nbNodes = this.size()==1 ; 
+        
+        // the first arc has for origin the origin of the path and, for two consecutive arcs, the destination of the first one is the origin of the second one.
+        boolean originDestination = true ; 
+        
+        
+        condition=(this.isEmpty() || nbNodes || test3) ; 
+        return condition;
     }
 
     /**
@@ -210,11 +220,13 @@ public class Path {
      * 
      * @return Total length of the path (in meters).
      * 
-     * @deprecated Need to be implemented.
      */
     public float getLength() {
-        // TODO:
-        return 0;
+    	float length = 0 ; 
+    	for (Arc value : this.arcs) {
+    		length += value.getLength() ; 
+    	}
+    	return length ; 
     }
 
     /**
@@ -225,11 +237,11 @@ public class Path {
      * @return Time (in seconds) required to travel this path at the given speed (in
      *         kilometers-per-hour).
      * 
-     * @deprecated Need to be implemented.
      */
     public double getTravelTime(double speed) {
-        // TODO:
-        return 0;
+        double time = 0 ; 
+        time = this.getLength()/(speed*(1/3.6)) ; 
+        return time ; 
     }
 
     /**
@@ -238,11 +250,13 @@ public class Path {
      * 
      * @return Minimum travel time to travel this path (in seconds).
      * 
-     * @deprecated Need to be implemented.
      */
     public double getMinimumTravelTime() {
-        // TODO:
-        return 0;
+        double time = 0 ; 
+        for (Arc etape : this.arcs) {
+        	time += etape.getMinimumTravelTime() ; 
+        }
+        return time ; 
     }
 
 }

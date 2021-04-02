@@ -167,16 +167,16 @@ public class BinaryHeapFormatter {
         final BinaryHeap<E> copy = new BinaryHeap<E>(heap);
 
         final String truncate;
-        if (max_elements < 0 || max_elements >= heap.size()) {
+        if (maxElement < 0 || maxElement >= heap.size()) {
             truncate = "";
         }
         else {
-            truncate = ", only " + max_elements + " elements are shown";
+            truncate = ", only " + maxElement + " elements are shown";
         }
 
         result += "========  Sorted HEAP  (size = " + heap.size() + truncate + ")  ========\n\n";
 
-        while (!copy.isEmpty() && max_elements-- != 0) {
+        while (!copy.isEmpty() && maxElement-- != 0) {
             result += copy.deleteMin() + "\n";
         }
 
