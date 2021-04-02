@@ -202,16 +202,31 @@ public class Path {
      */
     public boolean isValid() {
     	// Test condition isValid()
-        boolean condition ;
-        
-        // it contains a single node (without arcs);
-        boolean nbNodes = this.size()==1 ; 
-        
-        // the first arc has for origin the origin of the path and, for two consecutive arcs, the destination of the first one is the origin of the second one.
+        boolean condition = false ;
         boolean originDestination = true ; 
         
+        // test if the path is empty 
+        if (this.isEmpty()) {
+        	condition =  true ; 
+        	
+        // test if it contains a single node (without arcs)
+        } else if ((this.size()==1) && (this.getArcs()==null)) {
+        	condition = true ; 
+        	
+        } else {
+	        // the first arc has for origin the origin of the path and, for two consecutive arcs, the destination of the first one is the origin of the second one.
+	        originDestination = true ; 
+	        if (this.arcs.get(0).getOrigin() != this.getOrigin()) {
+	        	originDestination = false ; 
+	        }
+	        for (int i=0; i<(this.size()-1); i++) {
+	        	if (this.arcs.get(i).getDestination() != this.arcs.get(i+1).getOrigin()) {
+	        		originDestination = false ; 
+	        	}
+	        } 
+	        condition = originDestination ; 
+        }
         
-        condition=(this.isEmpty() || nbNodes || test3) ; 
         return condition;
     }
 
