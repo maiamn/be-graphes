@@ -134,10 +134,80 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
         this.arraySet(index, x);
         this.percolateUp(index);
     }
-
+    
+    // Fonction to find the index of an element x
+    private int findIndexOf(E x, int currentIndex) {
+    /* (1) On teste si l'élément est au currentIndex
+     * (2) On teste si l'élément est au fils gauche du currentIndex
+     * (3) On teste si l'élément est au fils droit du currentIndex
+     * (4) On teste si l'élément peut être dans le sous arbre gauche
+     * (5) On teste si l'élément peut être dans le sous arbre droit
+     */
+    	
+    	int indLeft = indexLeft(currentIndex) ; 
+    	int indRight = indLeft + 1 ; 
+    	boolean hasLeft = indLeft < this.currentSize ; 
+    	boolean hasRight = indRight < this.currentSize ; 
+    	
+    	if (x.compareTo(array.get(currentIndex))==0) {
+    		return currentIndex ; 
+    	} else if (hasLeft && x.compareTo(array.get(indLeft)) == 0) {
+    		return indLeft ; 
+    	} else if (hasRight && x.compareTo(array.get(indRight)) == 0) {
+    		return indRight ; 
+    	}
+    	
+    	int leftSearch = -1 ; 
+    	int rightSearch = -1 ; 
+    	
+    	if (hasLeft && x.compareTo(array.get(indLeft))>0) {
+    		leftSearch = findIndexOf(x, indLeft) ; 
+    	}
+    	
+    	if (hasRight && x.compareTo(array.get(indRight))>0) {
+    		rightSearch = findIndexOf(x, indRight) ; 
+    	}
+    	
+    	if (rightSearch == -1 && leftSearch == -1) {
+    		return -1 ; 
+    	}
+    	
+    	if (rightSearch != -1) {
+    		return rightSearch ; 
+    	}
+    	
+    	return leftSearch ; 
+    } 
+    
+    
     @Override
     public void remove(E x) throws ElementNotFoundException {
-        // TODO:
+        // If there is no element in the heap
+    	if (this.currentSize == 0) {
+        	throw new ElementNotFoundException(x) ; 
+        }
+        
+    	// First step = find the index of the node to be removed
+    	// Exception raised if element not found 
+    	int index = findIndexOf(x, 0) ; 
+    	if (index == -1) {
+    		throw new ElementNotFoundException(x) ; 
+    	}
+    	
+    	// Second step = delete node 
+    	// The last element switched with the element to be removed 
+    	E y = array.get(array.size() -1) ; 
+    	arraySet(index, y) ; 
+    	array.remove(array.size()-1) ; 
+    	// The size is decreased 
+    	this.currentSize-- ; 
+        
+    	// Percolate up or down 
+    	if (index != 0 && y.compareTo(array.get(indexParent(index))) <0) {
+    		percolateUp(index) ; 
+    	} else {
+    		percolateDown(index) ;
+    	}
     }
 
     @Override
