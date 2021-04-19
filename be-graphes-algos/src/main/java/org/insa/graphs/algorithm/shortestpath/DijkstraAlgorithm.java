@@ -22,6 +22,15 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
     @Override
     protected ShortestPathSolution doRun() {
         final ShortestPathData data = getInputData();
+        Graph graph = data.getGraph() ; 
+        
+        // Association of label for each node 
+        int nbNodes = graph.size(); 
+        Label[] labels = new Label[nbNodes] ; 
+        for (int i=0 ; i< nbNodes ; i++) {
+        	labels[i]= new Label(i, false, Double.POSITIVE_INFINITY, -1) ; 
+        }
+        
         ShortestPathSolution solution = null;
         // TODO:
         return solution;
