@@ -57,7 +57,7 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
      */
     protected int indexParent(int index) {
         return (index - 1) / 2;
-    }
+    } 
 
     /**
      * @return Index of the left child of the given index.
