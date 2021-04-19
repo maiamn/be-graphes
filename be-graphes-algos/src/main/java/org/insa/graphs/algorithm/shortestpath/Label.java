@@ -17,7 +17,7 @@ public class Label {
 	
 	public double getCost() {
 		return this.cost ; 
-	}
+	} 
 	
 	
 }
