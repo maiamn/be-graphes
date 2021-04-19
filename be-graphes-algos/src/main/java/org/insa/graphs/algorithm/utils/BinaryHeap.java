@@ -183,7 +183,7 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
     @Override
     public void remove(E x) throws ElementNotFoundException {
         // If there is no element in the heap
-    	if (this.currentSize == 0) {
+    	if (this.isEmpty()) {
         	throw new ElementNotFoundException(x) ; 
         }
         
@@ -209,6 +209,8 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
     		percolateDown(index) ;
     	}
     }
+    
+    
 
     @Override
     public E findMin() throws EmptyPriorityQueueException {
