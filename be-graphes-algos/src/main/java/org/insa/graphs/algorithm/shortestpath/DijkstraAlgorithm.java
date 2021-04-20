@@ -24,12 +24,19 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         final ShortestPathData data = getInputData();
         Graph graph = data.getGraph() ; 
         
+        ///// INITIALISATION /////
         // Association of label for each node 
         int nbNodes = graph.size(); 
         Label[] labels = new Label[nbNodes] ; 
         for (int i=0 ; i< nbNodes ; i++) {
-        	labels[i]= new Label(i, false, Double.POSITIVE_INFINITY, -1) ; 
+        	labels[i]= new Label(i, false, Double.POSITIVE_INFINITY, 0) ; 
         }
+        
+        int origin = data.getOrigin().getId(); 
+        labels[origin].cost = 0 ; 
+        
+        ////// CONSTRUCTION BINARY HEAP /////
+        BinaryHeap<Label> heap = new BinaryHeap<>(); 
         
         ShortestPathSolution solution = null;
         // TODO:
