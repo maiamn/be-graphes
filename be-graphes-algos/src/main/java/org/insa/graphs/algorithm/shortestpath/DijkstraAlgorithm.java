@@ -1,7 +1,7 @@
 package org.insa.graphs.algorithm.shortestpath;
 
 // Import of classes
-import org.insa.graphs.algorithm.AbstractSolution;
+import org.insa.graphs.algorithm.AbstractSolution.Status ;
 import org.insa.graphs.algorithm.AbstractInputData;
 import org.insa.graphs.algorithm.utils.BinaryHeap;
 // Import of exceptions
@@ -104,7 +104,21 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	}
         }
         
+        
+        ///// SOLUTION OF DJIKSTRA ALGORITHM /////
         ShortestPathSolution solution = null;
+        
+        // INFEASIBLE // 
+        if (!labels[data.getDestination().getId()].marque) {
+        	solution = new ShortestPathSolution(data, Status.INFEASIBLE) ; 
+        }
+        else {
+        	// Find the list of nodes 
+        	
+        	// Reverse 
+        	
+        	// Create the final solution
+        }
         return solution;
     }
 
