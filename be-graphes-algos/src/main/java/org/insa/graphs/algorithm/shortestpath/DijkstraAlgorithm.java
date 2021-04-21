@@ -2,7 +2,6 @@ package org.insa.graphs.algorithm.shortestpath;
 
 // Import of classes
 import org.insa.graphs.algorithm.AbstractSolution.Status ;
-import org.insa.graphs.algorithm.AbstractInputData;
 import org.insa.graphs.algorithm.utils.BinaryHeap;
 // Import of exceptions
 import org.insa.graphs.algorithm.utils.ElementNotFoundException;
@@ -26,18 +25,21 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         
         ///// INITIALISATION /////
         // Association of label for each node 
-        int nbNodes = graph.size(); 
+        final int nbNodes = graph.size(); 
         Label[] labels = new Label[nbNodes] ; 
         for (int i=0 ; i< nbNodes ; i++) {
-        	labels[i]= new Label(i, false, Double.POSITIVE_INFINITY, 0) ; 
+        	labels[i]= new Label(i, false, Double.POSITIVE_INFINITY, -1) ; 
         }
         
         int origin = data.getOrigin().getId(); 
-        labels[origin].cost = 0 ; 
+        labels[origin].setCost(0) ; 
         
         ////// CONSTRUCTION BINARY HEAP /////
         BinaryHeap<Label> heap = new BinaryHeap<>(); 
         heap.insert(labels[origin]);
+        
+        // Notify observers about the first event (origin processed).
+        notifyOriginProcessed(data.getOrigin());
         
         ///// ITERATIONS /////
         
@@ -56,7 +58,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
          *	}
          */		
         
-        while (!labels[data.getDestination().getId()].marque) {
+        while (!labels[data.getDestination().getId()].isMarked()) {
         	// Extraction of minimal element of the heap
         	Label currentNode ; 
         	// Find the minimal element in the heap
@@ -76,8 +78,12 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	// Mark the element 
         	labels[currentNode.getNodeId()].setMarque(true) ; 
         	
-        	// Go through the succesors of the element 
+        	// Go through the successors of the element 
         	for (Arc successor : graph.get(currentNode.getNodeId()).getSuccessors()) {
+        		if(!data.isAllowed(successor)) {
+        			continue ; 
+        		}
+        		
         		int nextNodeId = successor.getDestination().getId() ; 
         		if (!labels[nextNodeId].isMarked()) {
         			
@@ -102,6 +108,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         			}
         		}
         	}
+
         }
         
         
@@ -109,15 +116,29 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         ShortestPathSolution solution = null;
         
         // INFEASIBLE // 
-        if (!labels[data.getDestination().getId()].marque) {
+        if (!labels[data.getDestination().getId()].isMarked()) {
         	solution = new ShortestPathSolution(data, Status.INFEASIBLE) ; 
-        }
-        else {
+        } else {
+        	// The destination has been found, notify the observers.
+            notifyDestinationReached(data.getDestination());
+            
         	// Find the list of nodes 
+        	ArrayList<Node> nodes = new ArrayList<>() ; 
+        	nodes.add(data.getDestination()) ; 
+        	Node node = data.getDestination() ; 
+        	
+        	while(!node.equals(data.getOrigin())) {
+        		Node fatherNode = graph.getNodes().get(labels[node.getId()].getFather()) ; 
+        		nodes.add(fatherNode) ; 
+        		node = fatherNode ; 
+        	}
         	
         	// Reverse 
+        	Collections.reverse(nodes) ; 
         	
         	// Create the final solution
+        	Path finalPath = Path.createShortestPathFromNodes(graph, nodes) ; 
+            solution = new ShortestPathSolution(data, Status.OPTIMAL, finalPath) ; 
         }
         return solution;
     }
