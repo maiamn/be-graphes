@@ -1,5 +1,6 @@
 package org.insa.graphs.algorithm.shortestpath;
 
+import org.insa.graphs.algorithm.AbstractInputData;
 // Import of classes
 import org.insa.graphs.algorithm.AbstractSolution.Status ;
 import org.insa.graphs.algorithm.utils.BinaryHeap;
@@ -137,7 +138,12 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	Collections.reverse(nodes) ; 
         	
         	// Create the final solution
-        	Path finalPath = Path.createShortestPathFromNodes(graph, nodes) ; 
+        	Path finalPath ; 
+        	if (data.getMode().equals(AbstractInputData.Mode.LENGTH)) {
+        		finalPath = Path.createShortestPathFromNodes(graph, nodes) ; 
+        	} else {
+        		finalPath = Path.createFastestPathFromNodes(graph, nodes) ; 
+        	}
             solution = new ShortestPathSolution(data, Status.OPTIMAL, finalPath) ; 
         }
         return solution;
