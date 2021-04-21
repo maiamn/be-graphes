@@ -1,12 +1,13 @@
 package org.insa.graphs.algorithm.shortestpath;
 
+//Import of classes
 import org.insa.graphs.algorithm.AbstractInputData;
-// Import of classes
 import org.insa.graphs.algorithm.AbstractSolution.Status ;
 import org.insa.graphs.algorithm.utils.BinaryHeap;
 // Import of exceptions
 import org.insa.graphs.algorithm.utils.ElementNotFoundException;
 import org.insa.graphs.algorithm.utils.EmptyPriorityQueueException;
+
 import org.insa.graphs.model.*;
 
 // Import java.util 
@@ -28,12 +29,13 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         // Association of label for each node 
         final int nbNodes = graph.size(); 
         Label[] labels = new Label[nbNodes] ; 
-        for (int i=0 ; i< nbNodes ; i++) {
-        	labels[i]= new Label(i, false, Double.POSITIVE_INFINITY, -1) ; 
+        for (int i=0 ; i<nbNodes ; i++) {
+        	labels[i] = new Label(i, false, Double.POSITIVE_INFINITY, -1) ; 
         }
         
         int origin = data.getOrigin().getId(); 
-        labels[origin].setCost(0) ; 
+        double initCost = 0 ; 
+        labels[origin].setCost(initCost) ; 
         
         ////// CONSTRUCTION BINARY HEAP /////
         BinaryHeap<Label> heap = new BinaryHeap<>(); 
@@ -73,7 +75,6 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	try {
         		heap.remove(currentNode) ; 
         	} catch (ElementNotFoundException e) {
-        		break ; 
         	}
         	
         	// Mark the element 
@@ -95,7 +96,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         			
         			// Update of cost of successor 
         			// Which cost is the best ? 
-        			if (currentDistance > newDistance) {
+        			if (newDistance < currentDistance) {
         				labels[nextNodeId].setCost(newDistance) ; 
         				labels[nextNodeId].setFather(currentNode.getNodeId()) ; 
         				
@@ -139,13 +140,18 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	
         	// Create the final solution
         	Path finalPath ; 
+       
         	if (data.getMode().equals(AbstractInputData.Mode.LENGTH)) {
+        		// Final solution according to length of the path
         		finalPath = Path.createShortestPathFromNodes(graph, nodes) ; 
         	} else {
+        		// Final solution according to time of the path 
         		finalPath = Path.createFastestPathFromNodes(graph, nodes) ; 
         	}
+        	
             solution = new ShortestPathSolution(data, Status.OPTIMAL, finalPath) ; 
         }
+        
         return solution;
     }
 
