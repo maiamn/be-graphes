@@ -94,6 +94,10 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         			double weightArc = data.getCost(successor) ; 
         			double newDistance = labels[currentNode.getNodeId()].getCost() + weightArc ; 
         			
+        			if (Double.isInfinite(currentDistance) && Double.isFinite(newDistance)) {
+                        notifyNodeReached(successor.getDestination());
+                    }
+        			
         			// Update of cost of successor 
         			// Which cost is the best ? 
         			if (newDistance < currentDistance) {
