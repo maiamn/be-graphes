@@ -104,7 +104,7 @@ public class Path {
         	return new Path(graph, nodes.get(0)) ; 
         }
         
-        // If there are multiple multiple available routes, we choose the fastest one
+        // If there are multiple multiple available routes, we choose the shortest one
 	    for (int i=0; i<nodes.size()-1; i++)  {
         	// List of successors
 	    	Node node = graph.get(nodes.get(i).getId()) ; 
