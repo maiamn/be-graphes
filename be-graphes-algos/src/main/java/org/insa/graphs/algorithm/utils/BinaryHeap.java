@@ -196,9 +196,8 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
     	
     	// Second step = delete node 
     	// The last element switched with the element to be removed 
-    	E y = array.get(array.size() -1) ; 
+    	E y = array.get(currentSize-1) ; 
     	arraySet(index, y) ; 
-    	array.remove(array.size()-1) ; 
     	// The size is decreased 
     	this.currentSize-- ; 
         
@@ -208,6 +207,24 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
     	} else {
     		percolateDown(index) ;
     	}
+    }
+    
+    
+    public boolean isValid() {
+    	boolean valid = false ; 
+    	
+    	// Test if the heap is empty
+    	if (this.isEmpty()) {
+    		valid = true ; 
+    	} 
+    	
+    	/* Heap is valid if : 
+    	 * (1) all levels of the tree, except the last one, are fully filled 
+    	 * (2) the key of each node is less than or equal to the key of his child's node 
+    	 */
+    	
+    	
+    	return valid ; 
     }
     
     
