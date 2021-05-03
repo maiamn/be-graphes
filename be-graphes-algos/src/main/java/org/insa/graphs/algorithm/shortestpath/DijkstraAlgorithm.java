@@ -74,9 +74,14 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 
         	// Mark the element 
         	labels[currentNode.getNodeId()].setMarque(true) ; 
+        
+        	// int nbIter = 0 ; 
         	
         	// Go through the successors of the element 
-        	for (Arc successor : graph.get(currentNode.getNodeId()).getSuccessors()) {
+        	for (Arc successor : graph.get(currentNode.getNodeId()).getSuccessors()) { 
+        		
+        		// nbIter++ ; 
+        		
         		if(!data.isAllowed(successor)) {
         			continue ; 
         		}
@@ -98,7 +103,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         			if (newDistance < currentDistance) {
         				labels[nextNodeId].setCost(newDistance) ; 
         				labels[nextNodeId].setFather(currentNode.getNodeId()) ; 
-        				
+
         				// Update the heap 
         				try {
         					heap.remove(labels[nextNodeId]) ; 
@@ -106,10 +111,13 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         				} catch (ElementNotFoundException e) {
         					heap.insert(labels[nextNodeId]) ; 
         				}
-        			}
+        			} 
         		}
-        	}
-
+        	}  
+        	
+        	/* if (nbIter != graph.get(currentNode.getNodeId()).getNumberOfSuccessors()) {
+        		System.out.println("Successors not ok") ; 
+        	} */ 
         }
         
         
