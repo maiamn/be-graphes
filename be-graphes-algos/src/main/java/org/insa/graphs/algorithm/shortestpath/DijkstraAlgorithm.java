@@ -61,22 +61,17 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
          *	}
          */		
         
-        while (!labels[data.getDestination().getId()].isMarked()) {
+        while (!labels[data.getDestination().getId()].isMarked() && !heap.isEmpty()) {
         	// Extraction of minimal element of the heap
         	Label currentNode ; 
+        	
         	// Find the minimal element in the heap
         	try {
-        		currentNode = heap.findMin() ; 
+        		currentNode = heap.deleteMin() ; 
         	} catch (EmptyPriorityQueueException e) {
         		break ; 
         	}
 
-        	// Remove the element from the heap 
-        	try {
-        		heap.remove(currentNode) ; 
-        	} catch (ElementNotFoundException e) {
-        	}
-        	
         	// Mark the element 
         	labels[currentNode.getNodeId()].setMarque(true) ; 
         	
