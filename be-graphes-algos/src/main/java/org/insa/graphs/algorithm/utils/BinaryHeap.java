@@ -219,10 +219,56 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
     	} 
     	
     	/* Heap is valid if : 
-    	 * (1) all levels of the tree, except the last one, are fully filled 
-    	 * (2) the key of each node is less than or equal to the key of his child's node 
+    	 * (1) the key of each node is less than or equal to the key of his child's node
+    	 * (2) all levels of the tree, except the last one, are fully filled 
     	 */
-    	
+    	else {
+    		// (1) the key of each node is less than or equal to the key of his child's node //
+    		valid = true ; 
+    		for (int i=0; i<this.currentSize; i++) {
+    			int iLeft = indexLeft(i) ; 
+    			int iRight = indexLeft(i) + 1 ; 
+    			boolean hasLeft = iLeft < this.currentSize ; 
+    			boolean hasRight = iRight < this.currentSize ; 
+    			
+    			if (hasLeft) {
+    				if (iLeft < i) {
+    					valid = false ; 
+    				}
+    			}
+    			else if (hasRight) {
+    				if (iRight < i) {
+    					valid = false ;
+    				}
+    			}
+    			
+    		}
+    		
+    		// (2) all levels of the tree, except the last one, are fully filled //
+    		/* To verify that the the levels are all fully filled we have to check if :
+    		 * (2.1) if a node has a right child, he has to have a left child
+    		 * (2.2) if a right node has a left child, the left child of his parent node must have a right child
+    		 */
+    		for (int i=0 ; i<this.currentSize ; i++) {
+    			int iLeft = indexLeft(i) ; 
+    			int iRight = indexLeft(i) + 1 ; 
+    			int iParent = indexParent(i) ; 
+    			boolean hasLeft = iLeft < this.currentSize ; 
+    			boolean hasRight = iRight < this.currentSize ; 
+    			
+    			// (2.1) //
+    			if (hasRight && !hasLeft) {
+    				valid = false ; 
+    			}
+    			
+    			// (2.2) //  
+    			boolean rightNode = (i%2==1) ; 
+    			if (rightNode && hasLeft && !(indexLeft(indexLeft(iParent))+1<this.currentSize)) {
+    				valid = false ; 
+    			}  
+    		}
+    		
+    	}
     	
     	return valid ; 
     }
