@@ -28,6 +28,10 @@ public class Label implements Comparable<Label>{
 		return this.cost ; 
 	} 
 	
+	public double getTotalCost() {
+		return this.cost ; 
+	}
+	
 	public int getFather() {
 		return this.father ; 
 	}
@@ -48,7 +52,7 @@ public class Label implements Comparable<Label>{
 	// Comparable 
 	@Override 
 	public int compareTo(Label second) {
-		return Double.compare(this.cost, second.getCost()) ; 
+		return Double.compare(this.getTotalCost(), second.getTotalCost()) ; 
 	}
 	
 }
