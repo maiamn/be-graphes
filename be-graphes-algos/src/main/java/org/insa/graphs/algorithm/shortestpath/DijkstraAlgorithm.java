@@ -84,7 +84,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         		
         		if(!data.isAllowed(successor)) {
         			continue ; 
-        		}
+        		} 
         		
         		int nextNodeId = successor.getDestination().getId() ; 
         		if (!labels[nextNodeId].isMarked()) {
@@ -111,6 +111,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         				} catch (ElementNotFoundException e) {
         					heap.insert(labels[nextNodeId]) ; 
         				}
+        				
+        				System.out.println(heap.isValid()) ; 
         			} 
         		}
         	}  
