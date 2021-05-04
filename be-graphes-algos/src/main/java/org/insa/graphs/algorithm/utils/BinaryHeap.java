@@ -249,7 +249,7 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
     		 * (2.1) if a node has a right child, he has to have a left child
     		 * (2.2) if a right node has a left child, the left child of his parent node must have a right child
     		 */
-    		for (int i=0 ; i<this.currentSize ; i++) {
+    		/* for (int i=0 ; i<this.currentSize ; i++) {
     			int iLeft = indexLeft(i) ; 
     			int iRight = indexLeft(i) + 1 ; 
     			int iParent = indexParent(i) ; 
@@ -266,7 +266,7 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
     			if (rightNode && hasLeft && !(indexLeft(indexLeft(iParent))+1<this.currentSize)) {
     				valid = false ; 
     			}  
-    		}
+    		} */ 
     		
     	}
     	
