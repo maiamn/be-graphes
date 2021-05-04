@@ -20,6 +20,15 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         super(data);
     }
 
+    // Creatio of an array of labels 
+    Label[] labels = new Label[data.getGraph().size()] ; 
+    public void setLabels(ShortestPathData data) { 
+        for (int i=0 ; i<data.getGraph().size() ; i++) {
+        	labels[i] = new Label(i, false, Double.POSITIVE_INFINITY, -1) ; 
+        }
+    }
+    
+    
     @Override
     protected ShortestPathSolution doRun() {
         final ShortestPathData data = getInputData();
@@ -27,11 +36,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         
         ///// INITIALISATION /////
         // Association of label for each node 
-        final int nbNodes = graph.size(); 
-        Label[] labels = new Label[nbNodes] ; 
-        for (int i=0 ; i<nbNodes ; i++) {
-        	labels[i] = new Label(i, false, Double.POSITIVE_INFINITY, -1) ; 
-        }
+        setLabels(data) ; 
         
         int origin = data.getOrigin().getId(); 
         double initCost = 0 ; 
