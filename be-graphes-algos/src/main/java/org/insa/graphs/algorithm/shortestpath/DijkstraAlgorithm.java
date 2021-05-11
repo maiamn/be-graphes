@@ -20,7 +20,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         super(data);
     }
 
-    // Creatio of an array of labels 
+    // Creation of an array of labels 
     Label[] labels = new Label[data.getGraph().size()] ; 
     public void setLabels(ShortestPathData data) { 
         for (int i=0 ; i<data.getGraph().size() ; i++) {
@@ -33,6 +33,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
     protected ShortestPathSolution doRun() {
         final ShortestPathData data = getInputData();
         Graph graph = data.getGraph() ; 
+        
         
         ///// INITIALISATION /////
         // Association of label for each node 
@@ -166,6 +167,9 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
             solution = new ShortestPathSolution(data, Status.OPTIMAL, finalPath) ; 
         }
         
+        final String mapCarreDense = "D:\\INSA\\3A\\S6\\BE_Graphes\\be-graphes\\Maps\\carredense.mapgr" ; 
+    	System.out.println(mapCarreDense) ; 
+    	
         return solution;
     }
 
