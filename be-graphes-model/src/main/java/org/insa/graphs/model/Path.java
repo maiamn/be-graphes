@@ -32,7 +32,8 @@ public class Path {
      */
     public static Path createFastestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
-        List<Arc> arcs = new ArrayList<Arc>();
+        
+    	List<Arc> arcs = new ArrayList<>();
         boolean condition = false ; 
         
         // If the list of nodes is empty, the graph is empty
@@ -46,13 +47,13 @@ public class Path {
         }
         
         // If there are multiple multiple available routes, we choose the fastest one
-	    for (int i=0; i<nodes.size()-1; i++)  {
+        for (int i=0; i<nodes.size()-1; i++)  {
         	// List of successors
 	    	Node node = graph.get(nodes.get(i).getId()) ; 
 	        List<Arc> successors = node.getSuccessors() ; 
 	        
 	        double minTime = Double.MAX_VALUE ; 
-	        Arc fastest = successors.get(0) ; 
+	        Arc fastest = null ; 
 	        condition = false ; 
 	        
 	        for(Arc arc : successors) {
@@ -91,7 +92,8 @@ public class Path {
      */
     public static Path createShortestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
-        List<Arc> arcs = new ArrayList<Arc>();
+    	
+        List<Arc> arcs = new ArrayList<>();
         boolean condition = false ; 
         
         // If the list of nodes is empty, the graph is empty
