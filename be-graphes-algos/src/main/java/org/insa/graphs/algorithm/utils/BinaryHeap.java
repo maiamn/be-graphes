@@ -136,7 +136,7 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
     }
     
     // Fonction to find the index of an element x
-    private int findIndexOf(E x, int currentIndex) {
+    public int findIndexOf(E x, int currentIndex) throws ElementNotFoundException {
     /* (1) On teste si l'élément est au currentIndex
      * (2) On teste si l'élément est au fils gauche du currentIndex
      * (3) On teste si l'élément est au fils droit du currentIndex
@@ -144,39 +144,55 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
      * (5) On teste si l'élément peut être dans le sous arbre droit
      */
     	
-    	int indLeft = indexLeft(currentIndex) ; 
-    	int indRight = indLeft + 1 ; 
-    	boolean hasLeft = indLeft < this.currentSize ; 
+    	// If the heap is empty, ElementNotFoundException raised 
+    	if (this.currentSize == 0) {
+    		throw new ElementNotFoundException(x) ; 
+    	}
+    	
+    	// The element can be the first element of the heap 
+    	if (x.compareTo(this.array.get(currentIndex)) == 0) {
+    		return currentIndex ; 
+    	}
+    	
+    	// The element can be on the right side of the tree
+    	int indRight = indexLeft(currentIndex) + 1 ; 
     	boolean hasRight = indRight < this.currentSize ; 
     	
-    	if (x.compareTo(array.get(currentIndex))==0) {
-    		return currentIndex ; 
-    	} else if (hasLeft && x.compareTo(array.get(indLeft)) == 0) {
-    		return indLeft ; 
-    	} else if (hasRight && x.compareTo(array.get(indRight)) == 0) {
-    		return indRight ; 
+    	if (hasRight) {
+    		// The element can be the root of the right tree 
+    		if (x.compareTo(this.array.get(indRight)) == 0) {
+    			return indRight ; 
+    		}
+    		
+    		else if (x.compareTo(this.array.get(indRight)) > 0) {
+    			return findIndexOf(x, indRight) ; 
+    		}
+    		
+    		else {
+    			throw new ElementNotFoundException(x) ; 
+    		}
+
     	}
     	
-    	int leftSearch = -1 ; 
-    	int rightSearch = -1 ; 
+    	// The element can be on the left side of the tree 
+    	int indLeft = indexLeft(currentIndex) ; 
+    	boolean hasLeft = indLeft < this.currentSize ; 
     	
-    	if (hasLeft && x.compareTo(array.get(indLeft))>0) {
-    		leftSearch = findIndexOf(x, indLeft) ; 
+    	if (hasLeft) {
+    		if (x.compareTo(this.array.get(indLeft)) == 0) {
+    			return indLeft ; 
+    		}
+    		
+    		else if (x.compareTo(this.array.get(indLeft)) > 0) {
+    			return findIndexOf(x, indLeft) ; 
+    		}
+    		
+    		else {
+    			throw new ElementNotFoundException(x) ; 
+    		}
     	}
     	
-    	if (hasRight && x.compareTo(array.get(indRight))>0) {
-    		rightSearch = findIndexOf(x, indRight) ; 
-    	}
-    	
-    	if (rightSearch == -1 && leftSearch == -1) {
-    		return -1 ; 
-    	}
-    	
-    	if (rightSearch != -1) {
-    		return rightSearch ; 
-    	}
-    	
-    	return leftSearch ; 
+    	throw new ElementNotFoundException(x) ; 
     } 
     
     
@@ -189,9 +205,10 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
         
     	// First step = find the index of the node to be removed
     	// Exception raised if element not found 
-    	int index = findIndexOf(x, 0) ; 
-    	if (index == -1) {
-    		throw new ElementNotFoundException(x) ; 
+    	// int index = findIndexOf(x,0) ; 
+    	int index = array.indexOf(x); 
+    	if(index==-1 || (index>(this.currentSize-1))) {
+    		throw new ElementNotFoundException(x);	
     	}
     	
     	// Second step = delete node 
@@ -208,6 +225,7 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
     		percolateDown(index) ;
     	}
     }
+
     
     
     public boolean isValid() {
