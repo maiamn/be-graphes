@@ -12,7 +12,7 @@ import org.insa.graphs.model.*;
 
 // Import java.util 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Collections ;
 
 public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 
@@ -67,7 +67,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
          *	}
          */		
         
-        while (!labels[data.getDestination().getId()].isMarked() && !heap.isEmpty()) {
+        while (!labels[data.getDestination().getId()].isMarked()) {
         	// Extraction of minimal element of the heap
         	Label currentNode ; 
         	
@@ -118,7 +118,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         					heap.insert(labels[nextNodeId]) ; 
         				}
         				
-        				System.out.println(heap.isValid()) ; 
+        				// System.out.println(heap.isValid()) ; 
         			} 
         		}
         	}  
@@ -166,10 +166,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	
             solution = new ShortestPathSolution(data, Status.OPTIMAL, finalPath) ; 
         }
-        
-        final String mapCarreDense = "D:\\INSA\\3A\\S6\\BE_Graphes\\be-graphes\\Maps\\carredense.mapgr" ; 
-    	System.out.println(mapCarreDense) ; 
-    	
+       
         return solution;
     }
 
