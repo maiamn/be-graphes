@@ -33,12 +33,15 @@ public class AlgoTest {
 	private static ArrayList<Node> nodesCarre, nodesHauteGaronne ; 
 	
 	// Solutions of algorithms when origin equals destination
-	protected static ShortestPathSolution oneNodeDijkstra, oneNodeAStar, bigPathDijkstra, bigPathAStar, infeasibleDijkstra, infeasibleAStar ; 
+	protected static ShortestPathSolution oneNodeDijkstra0, oneNodeDijkstra2, oneNodeAStar0, oneNodeAStar2, bigPathDijkstra, bigPathAStar, infeasibleDijkstra, infeasibleAStar ; 
 	
 	// Array of solutions 
-	protected static ShortestPathSolution[] solutionsDijkstra ; 
-	protected static ShortestPathSolution[] solutionsAStar ; 
-	protected static ShortestPathSolution[] solutionsBellman ; 
+	protected static ShortestPathSolution[] solutionsDijkstra0 ; 
+	protected static ShortestPathSolution[] solutionsAStar0 ; 
+	protected static ShortestPathSolution[] solutionsBellman0 ; 
+	protected static ShortestPathSolution[] solutionsDijkstra2 ; 
+	protected static ShortestPathSolution[] solutionsAStar2 ; 
+	protected static ShortestPathSolution[] solutionsBellman2 ; 
 
 	// Some paths to realize tests
 	protected static Path oneNodePath ; 
@@ -93,16 +96,26 @@ public class AlgoTest {
 		Node singleNode = nodesCarre.get(rand.nextInt(nodesCarre.size()));
 		oneNodePath = new Path(graphCarre, singleNode);
 		
-		ShortestPathData data = new ShortestPathData(graphCarre, singleNode, singleNode, ArcInspectorFactory.getAllFilters().get(0));
+		ShortestPathData data0 = new ShortestPathData(graphCarre, singleNode, singleNode, ArcInspectorFactory.getAllFilters().get(0));
+		ShortestPathData data2 = new ShortestPathData(graphCarre, singleNode, singleNode, ArcInspectorFactory.getAllFilters().get(2));
+		
 		
 		// DIJKSTRA ALGORITHM //
-		DijkstraAlgorithm singleDijkstra = new DijkstraAlgorithm(data);
-		oneNodeDijkstra = singleDijkstra.doRun();
+		// Mode 0 //
+		DijkstraAlgorithm singleDijkstra0 = new DijkstraAlgorithm(data0);
+		oneNodeDijkstra0 = singleDijkstra0.doRun();
+		// Mode 2 //
+		DijkstraAlgorithm singleDijkstra2 = new DijkstraAlgorithm(data2);
+		oneNodeDijkstra2 = singleDijkstra2.doRun();
+		
 		
 		// ASTAR ALGORITHM // 
-		AStarAlgorithm singleAStar = new AStarAlgorithm(data) ; 
-		oneNodeAStar = singleAStar.doRun() ; 
-		
+		// Mode 0 //
+		AStarAlgorithm singleAStar0 = new AStarAlgorithm(data0) ; 
+		oneNodeAStar0 = singleAStar0.doRun() ; 
+		// Mode 2 //
+		AStarAlgorithm singleAStar2 = new AStarAlgorithm(data2) ; 
+		oneNodeAStar2 = singleAStar2.doRun() ;
 		
 		
 		
@@ -112,9 +125,12 @@ public class AlgoTest {
 	    ////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		// Init of arrays to store the solutions 
-		solutionsDijkstra = new ShortestPathSolution[50] ; 
-		solutionsAStar = new ShortestPathSolution[50] ; 
-		solutionsBellman = new ShortestPathSolution[50] ; 
+		solutionsDijkstra0 = new ShortestPathSolution[50] ; 
+		solutionsAStar0 = new ShortestPathSolution[50] ; 
+		solutionsBellman0 = new ShortestPathSolution[50] ; 
+		solutionsDijkstra2 = new ShortestPathSolution[50] ; 
+		solutionsAStar2 = new ShortestPathSolution[50] ; 
+		solutionsBellman2 = new ShortestPathSolution[50] ;
 		
 		int nbIter = 0 ; 
 		while (nbIter < 50) {
@@ -133,19 +149,34 @@ public class AlgoTest {
     	    
     	    // Algorithms on random pairs of nodes 
     	    if (valid) {
-    			ShortestPathData dataRandom = new ShortestPathData(graphCarre, firstNode, secondNode, ArcInspectorFactory.getAllFilters().get(0)) ; 
+    			ShortestPathData dataRandom0 = new ShortestPathData(graphCarre, firstNode, secondNode, ArcInspectorFactory.getAllFilters().get(0)) ; 
+    			ShortestPathData dataRandom2 = new ShortestPathData(graphCarre, firstNode, secondNode, ArcInspectorFactory.getAllFilters().get(2)) ; 
     			
     			// Dijkstra algorithm
-    			DijkstraAlgorithm dijkstra = new DijkstraAlgorithm(dataRandom) ; 
-    			solutionsDijkstra[nbIter] = dijkstra.doRun() ; 
+    			// Mode 0 //
+    			DijkstraAlgorithm dijkstra0 = new DijkstraAlgorithm(dataRandom0) ; 
+    			solutionsDijkstra0[nbIter] = dijkstra0.doRun() ; 
+    			// Mode 2 //
+    			DijkstraAlgorithm dijkstra2 = new DijkstraAlgorithm(dataRandom2) ; 
+    			solutionsDijkstra2[nbIter] = dijkstra2.doRun() ; 
+    			
     			
     			// AStar algorithm
-    			AStarAlgorithm aStar = new AStarAlgorithm(dataRandom) ; 
-    			solutionsAStar[nbIter] = aStar.doRun() ; 
+    			// Mode 0 //
+    			AStarAlgorithm aStar0 = new AStarAlgorithm(dataRandom0) ; 
+    			solutionsAStar0[nbIter] = aStar0.doRun() ; 
+    			// Mode 2 //
+    			AStarAlgorithm aStar2 = new AStarAlgorithm(dataRandom2) ; 
+    			solutionsAStar2[nbIter] = aStar2.doRun() ; 
+    			
     			
     			// Bellman Ford algorithm
-    			BellmanFordAlgorithm bellman = new BellmanFordAlgorithm(dataRandom) ; 
-    			solutionsBellman[nbIter] = bellman.doRun() ;
+    			// Mode 0 //
+    			BellmanFordAlgorithm bellman0 = new BellmanFordAlgorithm(dataRandom0) ; 
+    			solutionsBellman0[nbIter] = bellman0.doRun() ;
+    			// Mode 2 //
+    			BellmanFordAlgorithm bellman2 = new BellmanFordAlgorithm(dataRandom2) ; 
+    			solutionsBellman2[nbIter] = bellman2.doRun() ;
     			
     			nbIter++ ; 
     	    }
@@ -224,12 +255,12 @@ public class AlgoTest {
 		////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		ShortestPathData dataHauteGaronne = new ShortestPathData(graphHauteGaronne, pathHauteGaronne.getOrigin(), pathHauteGaronne.getDestination(), ArcInspectorFactory.getAllFilters().get(0));
-		
+
 		// DIJKSTRA ALGORITHM //
 		DijkstraAlgorithm bigDijkstra = new DijkstraAlgorithm(dataHauteGaronne);
 		bigPathDijkstra = bigDijkstra.doRun();
-		
-		// ASTAR ALGORITHM // 
+
+		// ASTAR ALGORITHM //
 		AStarAlgorithm bigAStar = new AStarAlgorithm(dataHauteGaronne) ; 
 		bigPathAStar = bigAStar.doRun() ; 
 		
@@ -244,48 +275,82 @@ public class AlgoTest {
 	
 	
 	@Test
-	public void testOneNodePathDijkstra() {
-		assertEquals(0, oneNodePath.getOrigin().compareTo(oneNodeDijkstra.getPath().getOrigin()));
-		assertTrue(Math.abs(oneNodePath.getLength() - oneNodeDijkstra.getPath().getLength()) < 0.01);
-		assertTrue(oneNodeDijkstra.getPath().isValid());
+	public void OneNodePathDijkstra_LENGTH() {
+		assertEquals(0, oneNodePath.getOrigin().compareTo(oneNodeDijkstra0.getPath().getOrigin()));
+		assertTrue(Math.abs(oneNodePath.getLength() - oneNodeDijkstra0.getPath().getLength()) < 0.01);
+		assertTrue(oneNodeDijkstra0.getPath().isValid());
 	}
 	
 	
 	@Test
-	public void testOneNodePathAStar() {
-		assertEquals(0, oneNodePath.getOrigin().compareTo(oneNodeAStar.getPath().getOrigin())) ; 
-		assertTrue(Math.abs(oneNodePath.getLength() - oneNodeAStar.getPath().getLength()) < 0.01) ; 
-		assertTrue(oneNodeAStar.getPath().isValid()) ; 
+	public void OneNodePathDijkstra_TIME() {
+		assertEquals(0, oneNodePath.getOrigin().compareTo(oneNodeDijkstra2.getPath().getOrigin()));
+		assertTrue(Math.abs(oneNodePath.getMinimumTravelTime() - oneNodeDijkstra2.getPath().getMinimumTravelTime()) < 0.01);
+		assertTrue(oneNodeDijkstra2.getPath().isValid());
 	}
 	
 	
 	@Test
-	public void testRandomDijkstra() {
+	public void OneNodePathAStar_LENGTH() {
+		assertEquals(0, oneNodePath.getOrigin().compareTo(oneNodeAStar0.getPath().getOrigin())) ; 
+		assertTrue(Math.abs(oneNodePath.getLength() - oneNodeAStar0.getPath().getLength()) < 0.01) ; 
+		assertTrue(oneNodeAStar0.getPath().isValid()) ; 
+	}
+	
+	
+	@Test
+	public void OneNodePathAStar_TIME() {
+		assertEquals(0, oneNodePath.getOrigin().compareTo(oneNodeAStar2.getPath().getOrigin())) ; 
+		assertTrue(Math.abs(oneNodePath.getMinimumTravelTime()- oneNodeAStar2.getPath().getMinimumTravelTime()) < 0.01) ; 
+		assertTrue(oneNodeAStar2.getPath().isValid()) ; 
+	}
+	
+	
+	@Test
+	public void RandomDijkstra_LENGTH() {
 		for (int k=0; k<10; k++) {
-			assertTrue(Math.abs(solutionsDijkstra[k].getPath().getLength() - solutionsBellman[k].getPath().getLength()) < 0.01) ; 
-			assertTrue(solutionsDijkstra[k].getPath().isValid()) ; 
+			assertTrue(Math.abs(solutionsDijkstra0[k].getPath().getLength() - solutionsBellman0[k].getPath().getLength()) < 0.01) ; 
+			assertTrue(solutionsDijkstra0[k].getPath().isValid()) ; 
+		}	
+	}
+	
+	
+	@Test
+	public void RandomDijkstra_TIME() {
+		for (int k=0; k<10; k++) {
+			assertTrue(Math.abs(solutionsDijkstra2[k].getPath().getMinimumTravelTime() - solutionsBellman2[k].getPath().getMinimumTravelTime()) < 0.01) ; 
+			assertTrue(solutionsDijkstra2[k].getPath().isValid()) ; 
+		}	
+	}
+	
+	
+	@Test
+	public void RandomAStar_LENGTH() {
+		for (int k=0; k<10; k++) {
+			assertTrue(Math.abs(solutionsAStar0[k].getPath().getLength() - solutionsBellman0[k].getPath().getLength()) < 0.01) ; 
+			assertTrue(solutionsAStar0[k].getPath().isValid()) ; 
 		}
-		
 	}
 	
+	
 	@Test
-	public void testRandomAStar() {
+	public void RandomAStar_TIME() {
 		for (int k=0; k<10; k++) {
-			assertTrue(Math.abs(solutionsAStar[k].getPath().getLength() - solutionsBellman[k].getPath().getLength()) < 0.01) ; 
-			assertTrue(solutionsAStar[k].getPath().isValid()) ; 
+			assertTrue(Math.abs(solutionsAStar2[k].getPath().getMinimumTravelTime() - solutionsBellman2[k].getPath().getMinimumTravelTime()) < 0.01) ; 
+			assertTrue(solutionsAStar2[k].getPath().isValid()) ; 
 		}
 	}
 	
 	
 	@Test 
-	public void testBigPathDijkstra() {
+	public void BigPathDijkstra_LENGTH() {
 		assertTrue(Math.abs(bigPathDijkstra.getPath().getLength() - pathHauteGaronne.getLength()) < 0.01) ; 
 		assertTrue(bigPathDijkstra.getPath().isValid()) ; 
 	}
 	
 	
 	@Test 
-	public void testBigPathAStar() {
+	public void BigPathAStar_LENGTH() {
 		assertTrue(Math.abs(bigPathAStar.getPath().getLength() - pathHauteGaronne.getLength()) < 0.01) ; 
 		assertTrue(bigPathAStar.getPath().isValid()) ; 
 	}
