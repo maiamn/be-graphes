@@ -10,6 +10,11 @@ public class LabelStar extends Label {
 		this.costDest = costDest ; 
 	}
 	
+	// Setters 
+	public void setCost(double cost) {
+		this.cost = cost ; 
+	}
+	
 	// Getters 
 	public double getCostDest() {
 		return this.costDest ; 

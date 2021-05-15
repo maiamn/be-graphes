@@ -81,12 +81,12 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	// Mark the element 
         	labels[currentNode.getNodeId()].setMarque(true) ; 
         
-        	// int nbIter = 0 ; 
+        	int nbIter = 0 ; 
         	
         	// Go through the successors of the element 
         	for (Arc successor : graph.get(currentNode.getNodeId()).getSuccessors()) { 
         		
-        		// nbIter++ ; 
+        		nbIter++ ; 
         		
         		if(!data.isAllowed(successor)) {
         			continue ; 
@@ -118,14 +118,16 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         					heap.insert(labels[nextNodeId]) ; 
         				}
         				
-        				// System.out.println(heap.isValid()) ; 
+        				if (!heap.isValid()) {
+        					System.out.println(heap.isValid()) ; 
+        				}
         			} 
         		}
         	}  
         	
-        	/* if (nbIter != graph.get(currentNode.getNodeId()).getNumberOfSuccessors()) {
+        	if (nbIter != graph.get(currentNode.getNodeId()).getNumberOfSuccessors()) {
         		System.out.println("Successors not ok") ; 
-        	} */ 
+        	}  
         }
         
         
