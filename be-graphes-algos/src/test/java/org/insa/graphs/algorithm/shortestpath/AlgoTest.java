@@ -108,16 +108,16 @@ public class AlgoTest {
 		
 		
 		////////////////////////////////////////////////////////////////////////////////////////////////
-	    ////////////////////// Test of the algorithms on 10 random pairs of nodes //////////////////////
+	    ////////////////////// Test of the algorithms on 50 random pairs of nodes //////////////////////
 	    ////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		// Init of arrays to store the solutions 
-		solutionsDijkstra = new ShortestPathSolution[10] ; 
-		solutionsAStar = new ShortestPathSolution[10] ; 
-		solutionsBellman = new ShortestPathSolution[10] ; 
+		solutionsDijkstra = new ShortestPathSolution[50] ; 
+		solutionsAStar = new ShortestPathSolution[50] ; 
+		solutionsBellman = new ShortestPathSolution[50] ; 
 		
 		int nbIter = 0 ; 
-		while (nbIter < 10) {
+		while (nbIter < 50) {
 			
 			// Boolean variable to test if the origin and the destination are different and in the same component
 			boolean valid = true ; 
@@ -159,48 +159,53 @@ public class AlgoTest {
 		///////////////////////// Test of the algorithms on an infeasible path /////////////////////////
 		////////////////////////////////////////////////////////////////////////////////////////////////
 		
-		/*
-		 * int indexFirst = -1 ; int indexSecond = -1 ;
-		 * 
-		 * boolean infeasible = false ;
-		 * 
-		 * while (!infeasible) {
-		 * 
-		 * infeasible = true ;
-		 * 
-		 * // Two random nodes in the graph Node firstNode =
-		 * nodesHauteGaronne.get(rand.nextInt(nodesHauteGaronne.size())) ; Node
-		 * secondNode = nodesHauteGaronne.get(rand.nextInt(nodesHauteGaronne.size())) ;
-		 * 
-		 * 
-		 * // Weakly Connected Components to check if the two nodes are in the same
-		 * component WeaklyConnectedComponentsData weakData = new
-		 * WeaklyConnectedComponentsData(graphCarre) ;
-		 * WeaklyConnectedComponentsAlgorithm algo = new
-		 * WeaklyConnectedComponentsAlgorithm(weakData) ;
-		 * WeaklyConnectedComponentsSolution solution = algo.run() ;
-		 * ArrayList<ArrayList<Node>> components ; components = solution.getComponents()
-		 * ;
-		 * 
-		 * 
-		 * // Search indexes of firstNode and secondNode within the components for (int
-		 * i=0; i<components.size(); i++) { if
-		 * (components.get(i).get(0).equals(firstNode)) { indexFirst = i ; } else if
-		 * (components.get(i).get(0).equals(secondNode)) { indexSecond = i ; } }
-		 * 
-		 * // Check if secondNode is in the same component as firstNode if (indexFirst
-		 * != -1) { for (int j=0; j<components.get(indexFirst).size(); j++) { if
-		 * (components.get(indexFirst).get(j).equals(secondNode)) { infeasible = false ;
-		 * } } }
-		 * 
-		 * // Or if the firstNode is in the same component as secondNode else if
-		 * (indexSecond != -1) { for (int j=0; j<components.get(indexSecond).size();
-		 * j++) { if (components.get(indexSecond).get(j).equals(firstNode)) { infeasible
-		 * = false ; } } } }
-		 */
-
+		Node origin ; 
+		Node destination ; 
 		
-		ShortestPathData dataInfeasible = new ShortestPathData(graphHauteGaronne, graphHauteGaronne.get(120349), graphHauteGaronne.get(120351), ArcInspectorFactory.getAllFilters().get(0)) ; 
+		int componentFirst = -1 ; 
+		int originId = -1 ; 
+		int destinationId = -1 ; 
+		boolean originFound = false ;  
+		boolean infeasible = false ; 
+		
+		while (!infeasible) {
+			
+			infeasible = true; 
+			
+			// Two random nodes in the graph 
+			origin = nodesHauteGaronne.get(rand.nextInt(nodesHauteGaronne.size())) ; 
+			originId = origin.getId() ; 
+			destination = nodesHauteGaronne.get(rand.nextInt(nodesHauteGaronne.size())) ;
+			destinationId = destination.getId() ; 
+			   
+			// Weakly Connected Components to check if the two nodes are in the same component 
+			WeaklyConnectedComponentsData weakData = new WeaklyConnectedComponentsData(graphHauteGaronne) ;
+			WeaklyConnectedComponentsAlgorithm algo = new WeaklyConnectedComponentsAlgorithm(weakData) ;
+			WeaklyConnectedComponentsSolution solution = algo.run() ;
+			ArrayList<ArrayList<Node>> components ; 
+			components = solution.getComponents() ;
+	
+			for (int i=0; i<components.size(); i++) {
+				for (int j=0; j<components.get(i).size(); j++) {
+					if (origin.equals(components.get(i).get(j))) {
+						originFound = true ; 
+						componentFirst = i ; 
+					}
+				}
+			}
+			
+			if (originFound) {
+				for (int k=0; k<components.get(componentFirst).size(); k++) {
+					if (destination.equals(components.get(componentFirst).get(k))) {
+						infeasible = false ; 
+					} 
+				}
+			}
+		}
+			
+		
+		
+		ShortestPathData dataInfeasible = new ShortestPathData(graphHauteGaronne, graphHauteGaronne.get(originId), graphHauteGaronne.get(destinationId), ArcInspectorFactory.getAllFilters().get(0)) ; 
 		
 		// DIJKSTRA ALGORITHM //
 		DijkstraAlgorithm infeasibleDijkstraAlgo = new DijkstraAlgorithm(dataInfeasible) ; 
