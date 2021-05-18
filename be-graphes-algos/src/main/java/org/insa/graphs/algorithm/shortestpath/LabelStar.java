@@ -1,27 +1,29 @@
 package org.insa.graphs.algorithm.shortestpath;
 
+import org.insa.graphs.model.*;
+
 public class LabelStar extends Label {
 	
-	protected double costDest ; 
+	private final double heuristic ; 
 	
 	// Constructor 
-	public LabelStar(int nodeId, boolean marque, double cost, int father, double costDest) {
-		super(nodeId, marque, cost, father) ; 
-		this.costDest = costDest ; 
-	}
-	
-	// Setters 
-	public void setCost(double cost) {
-		this.cost = cost ; 
+	public LabelStar(Node node, boolean marque, double cost, int father, Node destination, boolean lengthMode) {
+		super(node, marque, cost, father) ; 
+		
+		if (lengthMode) {
+			this.heuristic = Point.distance(node.getPoint(), destination.getPoint()) ; 
+		} else {
+			this.heuristic = Point.distance(node.getPoint(), destination.getPoint()) / 25d ; 
+		}
 	}
 	
 	// Getters 
-	public double getCostDest() {
-		return this.costDest ; 
+	public double getHeuristic() {
+		return heuristic ; 
 	}
 	
 	public double getTotalCost() {
-		return this.cost + this.costDest ; 
+		return this.cost + heuristic ; 
 	}
 
 }

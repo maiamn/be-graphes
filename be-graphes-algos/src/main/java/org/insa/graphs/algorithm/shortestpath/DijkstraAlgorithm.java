@@ -24,7 +24,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
     Label[] labels = new Label[data.getGraph().size()] ; 
     public void setLabels(ShortestPathData data) { 
         for (int i=0 ; i<data.getGraph().size() ; i++) {
-        	labels[i] = new Label(i, false, Double.POSITIVE_INFINITY, -1) ; 
+        	labels[i] = new Label(data.getGraph().get(i), false, Double.POSITIVE_INFINITY, -1) ; 
         }
     }
     
@@ -79,12 +79,12 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	}
 
         	// Mark the element 
-        	labels[currentNode.getNodeId()].setMarque(true) ; 
+        	labels[currentNode.getNode().getId()].setMarque(true) ; 
         
         	int nbIter = 0 ; 
         	
         	// Go through the successors of the element 
-        	for (Arc successor : graph.get(currentNode.getNodeId()).getSuccessors()) { 
+        	for (Arc successor : graph.get(currentNode.getNode().getId()).getSuccessors()) { 
         		
         		nbIter++ ; 
         		
@@ -96,9 +96,9 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         		if (!labels[nextNodeId].isMarked()) {
         			
         			// Actual and new distance
-        			double currentDistance = labels[nextNodeId].getCost() ; 
-        			double weightArc = data.getCost(successor) ; 
-        			double newDistance = labels[currentNode.getNodeId()].getCost() + weightArc ; 
+        			double currentDistance = labels[nextNodeId].getTotalCost() ; 
+        			double weightArc = data.getCost(successor) + labels[nextNodeId].getHeuristic() ; 
+        			double newDistance = labels[successor.getOrigin().getId()].getCost() + weightArc ; 
         			
         			if (Double.isInfinite(currentDistance) && Double.isFinite(newDistance)) {
                         notifyNodeReached(successor.getDestination());
@@ -107,8 +107,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         			// Update of cost of successor 
         			// Which cost is the best ? 
         			if (newDistance < currentDistance) {
-        				labels[nextNodeId].setCost(newDistance) ; 
-        				labels[nextNodeId].setFather(currentNode.getNodeId()) ; 
+        				labels[nextNodeId].setCost(labels[successor.getOrigin().getId()].getCost() + data.getCost(successor)) ; 
+        				labels[nextNodeId].setFather(currentNode.getNode().getId()) ; 
 
         				// Update the heap 
         				try {
@@ -125,7 +125,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         		}
         	}  
         	
-        	if (nbIter != graph.get(currentNode.getNodeId()).getNumberOfSuccessors()) {
+        	if (nbIter != graph.get(currentNode.getNode().getId()).getNumberOfSuccessors()) {
         		System.out.println("Successors not ok") ; 
         	}  
         }

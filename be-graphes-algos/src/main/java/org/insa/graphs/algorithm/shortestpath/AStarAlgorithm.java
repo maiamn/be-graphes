@@ -1,7 +1,6 @@
 package org.insa.graphs.algorithm.shortestpath;
 
-import org.insa.graphs.algorithm.AbstractInputData;
-import org.insa.graphs.model.Point;
+import org.insa.graphs.algorithm.AbstractInputData.Mode;
 
 public class AStarAlgorithm extends DijkstraAlgorithm {
 
@@ -10,15 +9,10 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
     }
     
     public void setLabels(ShortestPathData data) { 
-    	if (data.getMode().equals(AbstractInputData.Mode.LENGTH)) {
-	        for (int i=0 ; i<data.getGraph().size() ; i++) {
-	        	labels[i] = new LabelStar(i, false, Double.POSITIVE_INFINITY, -1, Point.distance(data.getGraph().get(i).getPoint(), data.getDestination().getPoint())) ; 
-	        }
-    	} else {
-    		for (int i=0 ; i<data.getGraph().size() ; i++) {
-	        	labels[i] = new LabelStar(i, false, Double.POSITIVE_INFINITY, -1, (Point.distance(data.getGraph().get(i).getPoint(), data.getDestination().getPoint()) / data.getMaximumSpeed())) ; 
-	        }
-    	}
+    	boolean lengthMode = data.getMode() == Mode.LENGTH ; 
+        for (int i=0 ; i<data.getGraph().size() ; i++) {
+        	labels[i] = new LabelStar(data.getGraph().get(i), false, Double.POSITIVE_INFINITY, -1, data.getDestination(), lengthMode) ; 
+        }
     }
 
 }

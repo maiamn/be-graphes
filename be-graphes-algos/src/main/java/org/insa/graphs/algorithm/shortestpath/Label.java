@@ -1,23 +1,25 @@
 package org.insa.graphs.algorithm.shortestpath;
 
+import org.insa.graphs.model.*;
+
 public class Label implements Comparable<Label>{
 	
-	protected final int nodeId ; 
+	protected final Node node ; 
 	protected boolean marque ; 
 	protected double cost ; 
 	protected int father ; 
 	
 	// Constructor
-	public Label(int nodeId, boolean marque, double cost, int father) {
-		this.nodeId = nodeId ; 
+	public Label(Node node, boolean marque, double cost, int father) {
+		this.node = node ; 
 		this.marque = marque ; 
 		this.cost = cost ; 
 		this.father = father ;  
 	}
 	
 	// getters 
-	public int getNodeId() {
-		return this.nodeId ; 
+	public Node getNode() {
+		return this.node ; 
 	}
 	
 	public boolean isMarked() {
@@ -47,6 +49,11 @@ public class Label implements Comparable<Label>{
 	
 	public void setFather(int fatherId) {
 		this.father = fatherId ; 
+	}
+	
+	// Information for A* Algorithm //
+	public double getHeuristic() {
+		return 0 ; 
 	}
 	
 	// Comparable 
