@@ -80,6 +80,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 
         	// Mark the element 
         	labels[currentNode.getNode().getId()].setMarque(true) ; 
+        	
+        	// System.out.println("Coût : " + labels[currentNode.getNode().getId()].getTotalCost()) ; 
         
         	int nbIter = 0 ; 
         	
